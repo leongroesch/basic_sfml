@@ -3,18 +3,19 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "game_object.h"
-#include "character.h"
-
 class game_engine{
   private:
     sf::RenderWindow window;
     sf::Clock update_clock;
-    std::vector<game_object> game_objects;
+    
+    sf::Clock fps_clock;
+    int fps_count;
 
     void event_handler();
     void update();
     void draw();
+
+    void calc_fps();
   public:
     game_engine(sf::VideoMode video_mode, std::string title);
     void main_loop();

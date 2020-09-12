@@ -1,16 +1,14 @@
 
 #include "game_engine.h"
 
+#include <iostream>
 
 game_engine::game_engine(sf::VideoMode video_mode, std::string title) 
                 : window(video_mode, title)
 {
-  character obj1(sf::Vector2f(100, 100), sf::Vector2f(15,15), sf::Vector2f(5, 5));
-  character obj2(sf::Vector2f(100, 100), sf::Vector2f(15,15), sf::Vector2f(0, 0));
 
-  game_objects.push_back(obj1);
-  game_objects.push_back(obj2);
 }
+
 void game_engine::event_handler()
 {
   sf::Event event;
@@ -28,20 +26,14 @@ void game_engine::event_handler()
 void game_engine::update()
 {
   auto elapsed_time = update_clock.getElapsedTime();
-  for(auto& x : game_objects)
-  {
-    x.update(elapsed_time);
-  }
-  update_clock.restart();
+  
 }
 
 void game_engine::draw()
 {
   window.clear();
-  for(auto& x : game_objects)
-  {
-    window.draw(x);
-  }
+  calc_fps();
+  
   window.display();
 }
 
@@ -52,4 +44,15 @@ void game_engine::main_loop()
     update();
     draw();
   }
+}
+
+void game_engine::calc_fps()
+{
+  if(fps_clock.getElapsedTime().asSeconds() >= 1.0)
+  {
+    std::cout << "FPS: " << fps_count << std::endl;
+    fps_count = 0;
+    fps_clock.restart();
+  }
+  fps_count++;
 }
